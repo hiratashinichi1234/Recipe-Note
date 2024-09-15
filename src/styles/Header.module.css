@@ -1,0 +1,21 @@
+/* src/styles/Header.module.css */
+.header {
+    background: rgb(37,240,196);
+    background: linear-gradient(90deg, rgba(37,240,196,1) 0%, rgba(47,185,54,1) 96%);
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+    color: rgb(252, 246, 246);
+  }
+  
+  .nav a {
+    margin: 0 1rem;
+    text-decoration: none;
+    color: rgb(252, 246, 246);
+  }
+  

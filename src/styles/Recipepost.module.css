@@ -1,0 +1,105 @@
+/* Recipepost.module.css */
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    margin-top: 10rem;
+    margin-bottom: 20rem;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.button.post {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.button.delete {
+    margin-top: 1.5rem;
+    background-color: #4CAF50;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon {
+    font-size: 20px;
+    margin-right: 8px;
+}
+
+.result {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.card {
+    margin-top: 10rem;
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 1500px;
+    height: 800px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card img {
+    width: 50%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.card img:hover {
+    transform: scale(1.1);
+}
+
+.cardContent {
+    padding: 20px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.cardContent h2 {
+    margin: 0 0 10px 0;
+}
+
+.cardContent p {
+    text-align: center;
+}

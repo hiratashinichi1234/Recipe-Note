@@ -1,0 +1,69 @@
+/* src/components/kondate.module.css */
+.container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+  
+  .description {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+  
+  .formContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  
+  .label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .input {
+    padding: 10px;
+    margin: 10px;
+    width: 300px;
+  }
+  
+  .button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  .usageTitle {
+    font-size: 1.5rem;
+    margin: 20px 0;
+  }
+  
+  .usageExample {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+  }
+  
+  .exampleImage {
+    width: 800px;
+    height: 800px;
+  }
+  
+  .arrowIcon {
+    font-size: 2rem;
+    color: #000;
+  }
+  
+  .error {
+    color: red;
+  }
+  

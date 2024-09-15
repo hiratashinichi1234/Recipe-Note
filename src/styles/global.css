@@ -1,0 +1,6 @@
+/* グローバルなスタイルを設定 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* すべての要素にボックスサイズを含める */
+  }

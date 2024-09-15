@@ -3,15 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "node src/server.js",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "next start"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.6.0",
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "@stripe/react-stripe-js": "^2.8.0",
+    "@stripe/stripe-js": "^4.4.0",
+    "express": "^4.19.2",
+    "firebase": "^10.13.1",
+    "formidable": "^3.5.1",
+    "multer": "^1.4.5-lts.1",
+    "next": "14.2.7",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.7"
+    "sqlite3": "^5.1.7",
+    "stripe": "^16.9.0",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "eslint": "^8",
