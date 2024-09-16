@@ -1,10 +1,10 @@
-// pages/stripe/checkout.js
 'use client';
 
 import { loadStripe } from '@stripe/stripe-js';
 import { useEffect } from 'react';
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
+// 環境変数名の修正
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 const StripeCheckout = () => {
   useEffect(() => {
@@ -33,6 +33,7 @@ const StripeCheckout = () => {
         }
       } catch (error) {
         console.error('Error handling checkout:', error);
+        // ユーザーにエラーメッセージを表示する処理を追加することも検討
       }
     };
 

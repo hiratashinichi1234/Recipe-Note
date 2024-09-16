@@ -1,17 +1,15 @@
-// pages/api/update-stock.js
-import { decreaseProductStock } from '../../app/lib/db';
+import { updateProductStock } from '../../app/lib/db';
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
-      const { productId, quantity } = req.body;
+      const { products } = req.body;
 
-      if (!productId || !quantity) {
-        return res.status(400).json({ error: 'Missing productId or quantity' });
-      }
+      // 各商品の在庫を更新
+      await Promise.all(products.map(({ productId, quantity }) =>
+        updateProductStock(productId, quantity)
+      ));
 
-      // 商品の在庫数を減少させる
-      await decreaseProductStock(productId, quantity);
       res.status(200).json({ message: 'Stock updated successfully' });
     } catch (error) {
       console.error('Error updating stock:', error);

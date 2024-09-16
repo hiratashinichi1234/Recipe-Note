@@ -10,8 +10,6 @@ import '../../styles/global.css'; // グローバルスタイルのインポー�
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 
-const initialStock = Array(12).fill(10); // 在庫数の初期値
-
 const recipes = [
   { id: 1, name: '豚骨ラーメン', imgSrc: '/images/image12.jpg', price: 300 },
   { id: 2, name: 'オードブル', imgSrc: '/images/image2.jpg', price: 500 },
@@ -29,7 +27,7 @@ const Content = () => {
   const { user } = useUser();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [stock, setStock] = useState(initialStock);
+  const [stock, setStock] = useState(() => Array(recipes.length).fill(10)); // 初期在庫数を設定
 
   useEffect(() => {
     if (!user) {
@@ -42,20 +40,19 @@ const Content = () => {
     const sessionId = searchParams.get('session_id');
 
     if (page === 'success') {
-      console.log('Purchase was successful!', sessionId);
+      console.log('購入成功！', sessionId);
       alert('購入成功！');
 
-      // 商品IDと数量を取得（サンプルとして最初のレシピのものを使用）
-      const productId = recipes[0].id; // 実際には選択された商品IDを使用する
-      const quantity = 1; // 必要に応じて数量を設定
+      // 購入情報を取得
+      const url = new URL(window.location.href);
+      const purchaseData = JSON.parse(url.searchParams.get('purchase_data') || '[]');
 
-      // 在庫を更新するAPIリクエストを送信
       fetch('/api/update-stock', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ productId, quantity }),
+        body: JSON.stringify({ products: purchaseData }),
       })
       .then(response => response.json())
       .then(data => {
@@ -64,21 +61,23 @@ const Content = () => {
           // ローカルの在庫数も更新
           setStock(prevStock => {
             const newStock = [...prevStock];
-            const index = recipes.findIndex(recipe => recipe.id === productId);
-            if (index !== -1) {
-              newStock[index] = Math.max(newStock[index] - quantity, 0);
-            }
+            purchaseData.forEach(({ productId, quantity }) => {
+              const index = recipes.findIndex(recipe => recipe.id === productId);
+              if (index !== -1) {
+                newStock[index] = Math.max(newStock[index] - quantity, 0);
+              }
+            });
             return newStock;
           });
         } else {
-          console.error('Failed to update stock:', data.error);
+          console.error('在庫の更新に失敗しました:', data.error);
         }
       })
       .catch(error => {
-        console.error('Error updating stock:', error);
+        console.error('在庫更新エラー:', error);
       });
     } else if (page === 'cancel') {
-      console.log('Purchase was canceled.');
+      console.log('購入がキャンセルされました。');
       alert('購入がキャンセルされました。');
     }
   }, [searchParams]);
@@ -100,7 +99,7 @@ const Content = () => {
   };
 
   const handleAddToCart = async (recipe) => {
-    const quantity = 1; // 必要に応じて数量を変更
+    const quantity = 1; // 必要に応じて変更
 
     try {
       const res = await fetch('/api/create-checkout-session', {
@@ -110,40 +109,34 @@ const Content = () => {
         },
         body: JSON.stringify({ recipeId: recipe.id, price: recipe.price, quantity }),
       });
-  
+
       if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
+        throw new Error(`HTTPエラー! ステータス: ${res.status}`);
       }
-  
+
       const data = await res.json();
       const sessionId = data.id;
-  
+
       const stripe = await getStripe();
-  
       if (stripe) {
         const { error } = await stripe.redirectToCheckout({ sessionId });
         if (error) {
-          console.error('Error redirecting to checkout:', error);
+          console.error('チェックアウトへのリダイレクトエラー:', error);
         }
       }
     } catch (error) {
-      console.error('Error handling checkout:', error);
+      console.error('チェックアウト処理エラー:', error);
+      alert('購入処理中にエラーが発生しました。');
     }
   };
 
   const getStripe = async () => {
-    if (!window.Stripe) {
-      const { loadStripe } = await import('@stripe/stripe-js');
-      const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
-  
-      if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
-        console.error('Stripe publishable key is not set.');
-      }
-  
-      return stripe;
+    if (typeof window !== 'undefined' && window.Stripe) {
+      return window.Stripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
     }
-  
-    return window.Stripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+
+    const { loadStripe } = await import('@stripe/stripe-js');
+    return loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
   };
 
   if (!user) {

@@ -1,4 +1,3 @@
-// pages/api/create-checkout-session.js
 import Stripe from 'stripe';
 import { getProductById } from '../../app/lib/db';
 
@@ -17,11 +16,6 @@ export default async function handler(req, res) {
         return res.status(404).json({ error: 'Product not found' });
       }
 
-      // 在庫数の確認
-      if (product.stock < quantity) {
-        return res.status(400).json({ error: 'Not enough stock' });
-      }
-
       // Stripe セッションの作成
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
@@ -32,7 +26,7 @@ export default async function handler(req, res) {
               product_data: {
                 name: product.name,
               },
-              unit_amount: price,
+              unit_amount: product.price, // 表示価格と同じ価格を使用
             },
             quantity,
           },
