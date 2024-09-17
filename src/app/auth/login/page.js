@@ -6,7 +6,7 @@ import { auth } from '../../lib/firebaseConfig'; // 正しいパスを指定
 import styles from '../../../styles/Auth.module.css'; // CSS モジュールのインポート
 import { useRouter } from 'next/navigation'; // useRouter を使用
 import Link from 'next/link';
-import '../../styles/global.css'; // グローバルスタイルのインポート
+import '../../../styles/global.css'; 
 
 const Login = () => {
   const [email, setEmail] = useState('');

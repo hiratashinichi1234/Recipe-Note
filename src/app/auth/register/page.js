@@ -5,7 +5,7 @@ import { auth } from '../../lib/firebaseConfig'; // 修正したパス
 import styles from '../../../styles/Auth.module.css'; // CSS モジュールのインポート
 import { useRouter } from 'next/navigation'; // 必ずこれを使用
 import Link from 'next/link';
-import '../../styles/global.css'; // グローバルスタイルのインポート
+import '../../../styles/global.css'; // グローバルスタイルのインポート
 
 
 const Register = () => {
